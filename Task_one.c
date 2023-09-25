@@ -7,26 +7,19 @@ void printTime(int hours, int minutes, int seconds)
 
 int main()
 {
-    int amount_of_times,time[60][60][24];
+    int amount_of_times, hours[1001], minutes[1001], seconds[1001];
     scanf("%d", &amount_of_times);
     int hour, minute, second;
     for(int step = 0; step < amount_of_times; ++step)
     {
         scanf("%d %d %d", &hour, &minute, &second);
-        time[second][minute][hour] ++;
+        hours[step] = hour;
+        minutes[step] = minute;
+        seconds[step] = second;
     }
-    for (int step = 0; step <= 23; ++step)
+    for (int step = 0; step < amount_of_times; ++step)
     {
-        for (int step2 = 0; step2 <= 59; ++step2)
-        {
-            for (int step3 = 0; step3 <= 59; ++step3)
-            {
-                if(time[step3][step2][step] == 1)
-                {
-                    printTime(step, step2, step3);
-                }
-            }
-        }
+        printTime(hours[step], minutes[step], seconds[step]);
     }
     return 0;
 }
