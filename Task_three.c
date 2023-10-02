@@ -8,13 +8,13 @@ char* concat(char *pref, char *suff)
         *(pref + step) = *(suff + step);
         step++;
     }
-    return suff+step;
+    return pref+step;
 }
-
+char res[100000000];
 int main()
 {
     int reslen = 0, amount_of_strings;
-    char res[10000000],input[100], *last_index = res;
+    char input[100], *last_index = res;
     scanf("%d", &amount_of_strings);
 
     for (int step = 0; step < amount_of_strings; ++step)

@@ -1,63 +1,65 @@
 #include <stdio.h>
 #include <string.h>
-int bukvacheck(char *str)
+#include <stdlib.h>
+int length(char* string)
 {
-    if ((*str >= 'A' && *str <= 'Z') || (*str >= 'a' && *str <= 'z'))
+    int step = 0, len = 0;
+    while (string[step] != '\0')
     {
-        return 1;
+        step ++;
+        len ++;
     }
-    else 
-    {
-        return 0;
-    }
+    return len;
 }
-char* counter(char *str, int *amount_counter, int *upper_counter)
+
+int counter(char *str, int length)
 {
-    for (int step = 0; step < strlen(str); ++step)
+    int upper_counter = 0;
+    for (int step = 0; step < length; ++step)
     {
-        if (*(str+step) >= 'A' && *(str+step) <= 'Z')
+        if(str[step] >= 'A' && str[step] <= 'Z')
         {
-            ++*upper_counter;
-            ++*amount_counter;
-        }
-        else if (*(str+step) >= 'a' && *(str+step) <= 'z')
-        {
-            ++*amount_counter;
+            ++upper_counter;
         }
     }
+    return upper_counter;
 }
 
 int main()
 {
-    int amount_of_letters = 0, flag = 0, amount = 0, upper = 0, step2 = 0;
-    char line[1000000], res[100000];
+    int flag = 0, step2 = 0;
+    char line[1000001], res[100001];
     scanf("%s", line);
-    for (int step = 0; step < strlen(line); ++step)
+    int len = length(line);
+    for (int step = 0; step < len; ++step)
     {
-        if (!flag && bukvacheck(&line[step]) == 1)
+        if (line[step] != '.' && line[step] != ';' && line[step] != ',' && line[step] != ':')
         {
             flag = 1;
-            res[step2] = line[step];
-            step2 ++;
+            res[step2++] = line[step];
         }
-        else if (flag && bukvacheck(&line[step]) == 1)
+        else 
         {
-            res[step2] = line[step];
-            step2 ++;
-        }
-        else if (flag && bukvacheck(&line[step]) == 0)
-        {
+            if (flag)
+            {
+                int upper = counter(res, step2);
+                printf("%d/%d ", upper, step2);
+                printf("%s\n", res);
+                // memset(res, '\0', strlen(res));
+                for (int i = 0; i < step2; ++i)
+                {
+                    res[i] = '\0';
+                }
+                step2 = 0;
+            }
             flag = 0;
-            counter(res, &amount, &upper);
-            printf("%d/%d %s\n", upper, amount, res);
-            amount = 0;
-            upper = 0;
-            step2 = 0;
-            memset(res, '\0', sizeof(res));
         }
-        else{
-            continue;
-        }
+    }
+    if (flag)
+    {
+        int upper = counter(res, step2);
+        printf("%d/%d ", upper, step2);
+        printf("%s\n", res);
     }
     return 0;
 }   
